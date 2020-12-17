@@ -1,4 +1,5 @@
 import sys, getopt
+import router
 from router import Route
 import utils
 
@@ -28,12 +29,12 @@ def main(argv):
 # epud to pdf
 
 
-choices = {
+options = {
    "0": ". Exit",
-   "1": ". Convert HTML to PDF from URL",
-   "2": ". Convert HTML to PDF from file",
-   "3": ". Convert PDF to TXT",
-   "4": ". Convert TXT to PDF",
+   "1": ". Convert TXT to PDF",
+   "2": ". Convert PDF to TXT",
+   "3": ". Convert HTML to PDF from URL",
+   "4": ". Convert HTML to PDF from .HTML",
    "5": ". Convert DOC to TXT",
    "6": ". Convert DOC to PDF",
    "7": ". Convert DOCX to TXT",
@@ -43,31 +44,30 @@ choices = {
 }
 
 if __name__ == "__main__":
-   correctChoice = False
    print("\n\n\n\n")
    print("Select from one of the following options:")
    print("=========================================")
    print("\n\n")
 
    #Display Menu
-   for key,value in choices.items():
-      print(key,value)
+   utils.showMenu(options)
    
    #Make selection
-   choice = input("Your selection is: ")      
-   while utils.checkChoice(choice,choices) == False:
+   choice = input("Your selection is: ").strip()      
+   while utils.checkChoice(choice,options) == False:
       print("Invalid choice.")
-      choice = input("Your selection is: ")      
+      print("\n\n")
+      choice = input("Your selection is: ")
+      print("\n\n")
    else: 
       if choice == "0":
          quit()
-      inputFile = input("Type the filepath to the file: ")
+      inputFile = input("Type the filepath to the file: ").strip()
       print("\n\n")
       try:
-         Route.make_choice(choice,inputFile)      
+         utils.make_choice(choice,inputFile,router.options)      
       finally:
-         return
+         utils.showMenu(options)
       
-   print("")
    
    

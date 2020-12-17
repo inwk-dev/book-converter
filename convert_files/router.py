@@ -6,25 +6,43 @@ class Route():
     Routing class holding triggering the methods for conversion.
     """
     
-    ## Execute the method with the passed path or url
-    @staticmethod
-    def make_choice(argument,inputFile):
-        # Get the function from switch dictionary
-        func = switcher.get(argument)
-        # Execute the function
-        return func(inputFile)
-
+    
     @staticmethod
     def txtToPdf(input):
-
         if utils.isTxt:
-            converter.ToPdfConverter.ConvertTextToPdf(input)
+            try:
+                fullpath = converter.ToPdfConverter.ConvertTextToPdf(input)
+                print('The file has been created at: {}'.format(fullpath))
 
-        print(input)
+            except:
+                print("There was an issue while processing the file.")
+                
+
+    @staticmethod
+    def pdfToTxt(input):
+        if utils.isPdf(input):
+            try:
+                fullpath = ''
+                print('The file has been created at: {}'.format(fullpath))
+            except:
+                pass
+        print("To be implemented")
 
     @staticmethod
     def htmlToPdf(input):
-        print("text")
+        if utils.isUrl(input):
+            try:
+                fullpath = converter.ToPdfConverter.ConvertHtmlToPdfUrl(input)
+                print('The file has been created at: {}'.format(fullpath))
+            except:
+                print("There was an issue while processing the file.")
+        elif utils.isHtml(input):
+            try:
+                fullpath = converter.ToPdfConverter.ConvertHtmlToPdfUrl(input)
+                print('The file has been created at: {}'.format(fullpath))
+            except:
+                print("There was an issue while processing the file.")
+
 
     @staticmethod
     def htmlToTxt(input):
@@ -32,15 +50,18 @@ class Route():
 
     @staticmethod
     def docToTxt(input):
-        print("text")
+        print("To be implemented")
+
     
     @staticmethod
     def docToPdf(input):
-        print("text")
+        print("To be implemented")
+
     
     @staticmethod
     def docxToTxt(input):
-        print("text")
+        print("To be implemented")
+
 
     @staticmethod
     def docxToPdf(input):
@@ -53,16 +74,17 @@ class Route():
     @staticmethod
     def epubToPdf(input):
         print("text")
-
-switcher = {
+        
+options = {
     "0": exit,
     "1": Route.txtToPdf,
-    "2": Route.htmlToPdf,
-    "3": Route.htmlToTxt,
-    "4": Route.docToTxt,
-    "5": Route.docToPdf,
-    "6": Route.docxToTxt,
-    "7": Route.docxToPdf,
-    "8": Route.epubToTxt,
-    "9": Route.epubToPdf
+    "2": Route.pdfToTxt,
+    "3": Route.htmlToPdf,
+    "4": Route.htmlToTxt,
+    "5": Route.docToTxt,
+    "6": Route.docToPdf,
+    "7": Route.docxToTxt,
+    "8": Route.docxToPdf,
+    "9": Route.epubToTxt,
+    "10": Route.epubToPdf,
 }

@@ -4,32 +4,42 @@ import pdfkit
 from urllib.parse import urlparse
 from pathlib import Path
 import utils
+import constants
 
 
 class ToPdfConverter():
     """
-    The class will handle the conversion from text to pdf format by given input file and output file.
+    The class will handle the conversion to pdf format by given input file and output file.
     """
     @staticmethod
-    def ConvertTextToPdf(inputpath,outputpath):
+    def ConvertTextToPdf(inputpath):
         """
         Convert text to pdf.
         """
-        pdf = FPDF()    
-        # Add a page 
-        pdf.add_page() 
-        # set style and size of font  
-        # that you want in the pdf 
-        pdf.set_font("Arial", size = 15) 
-        # open the text file in read mode 
-        f = open(inputpath, "r") 
-        # insert the texts in pdf 
-        for x in f: 
-            pdf.cell(200, 10, txt = x, ln = 1, align = 'C') 
-        # save the pdf with name .pdf 
-
+        try:
+            print("Starting the conversion...")
+            pdf = FPDF()    
+            # Add a page 
+            pdf.add_page() 
+            # set style and size of font  
+            # that you want in the pdf 
+            pdf.set_font("Arial", size = 15) 
+            # open the text file in read mode 
+            f = open(inputpath, "r") 
+            # insert the texts in pdf 
+            for x in f: 
+                pdf.cell(200, 10, txt = x, ln = 1, align = 'C') 
+            # save the pdf with name .pdf 
+            
+            baseName = utils.retrieveFilename(inputpath)
+            outputfilename= baseName + ".pdf"
+            fullpath = utils.createFileDestination(constants.DOWNLOAD_LOCATION, outputfilename)
+            pdf.output(fullpath) 
+            return fullpath  
+        except:
+            print("There was an issue with the conversion.") 
         
-        pdf.output(outputpath)    
+
 
     @staticmethod
     def ConvertHtmlToPdfUrl(urls):
@@ -38,14 +48,23 @@ class ToPdfConverter():
         """
         if isinstance(urls, (list,tuple)):
             for url in urls:
-                filename = utils.retrieveFilename(url)
-                pdfkit.from_url(url,filename)
-                print('')
-                
+                try:
+                    filename = utils.retrieveFilename(url)
+                    outputfilename= filename + ".pdf"
+                    fullpath = utils.createFileDestination(constants.DOWNLOAD_LOCATION, outputfilename)
+                    pdfkit.from_url(url,fullpath)
+                    return fullpath
+                except:
+                    print("There was an issue with the conversion.") 
         elif isinstance(urls, str):
-            filename = utils.retrieveFilename(url)
-            pdfkit.from_url(urls,filename)
-            print('')
+            try:
+                filename = utils.retrieveFilename(url)
+                outputfilename= filename + ".pdf"
+                fullpath = utils.createFileDestination(constants.DOWNLOAD_LOCATION, outputfilename)
+                pdfkit.from_url(url,fullpath)
+                return fullpath
+            except:
+                print("There was an issue with the conversion.")
     
     @staticmethod
     def ConvertHtmlToPdfFile(files):
@@ -54,14 +73,23 @@ class ToPdfConverter():
         """
         if isinstance(files, (list,tuple)):
             for file in files:
-                filename = utils.retrieveFilename(file)
-                pdfkit.from_url(file,filename)
-                print('')
-                
+                try:
+                    filename = utils.retrieveFilename(file)
+                    outputfilename= filename + ".pdf"
+                    fullpath = utils.createFileDestination(constants.DOWNLOAD_LOCATION, outputfilename)
+                    pdfkit.from_file(file, fullpath)
+                    return fullpath
+                except:
+                    print("There was an issue with the conversion.")
         elif isinstance(files, str):
-            filename = utils.retrieveFilename(files)
-            pdfkit.from_url(files,filename)
-            print('')
+            try:
+                filename = utils.retrieveFilename(file)
+                outputfilename= filename + ".pdf"
+                fullpath = utils.createFileDestination(constants.DOWNLOAD_LOCATION, outputfilename)
+                pdfkit.from_file(file, fullpath)
+                return fullpath
+            except:
+                print("There was an issue with the conversion.")
 
     
     
@@ -69,4 +97,32 @@ class ToTxtConverter():
     """
     docstring
     """
-    pass
+    @staticmethod
+    def ConvertPdfToTxt(inputpath):
+        """
+        Convert text to pdf.
+        """
+        if utils.isPdf(inputpath):
+            try:
+                pdf = FPDF()    
+                # Add a page 
+                pdf.add_page() 
+                # set style and size of font  
+                # that you want in the pdf 
+                pdf.set_font("Arial", size = 15) 
+                # open the text file in read mode 
+                f = open(inputpath, "r") 
+                # insert the texts in pdf 
+                for x in f: 
+                    pdf.cell(200, 10, txt = x, ln = 1, align = 'C') 
+                # save the pdf with name .pdf 
+                
+                baseName = utils.retrieveFilename(inputpath)
+                outputfilename= baseName + ".pdf"
+                fullpath = utils.createFileDestination(constants.DOWNLOAD_LOCATION, outputfilename)
+                pdf.output(fullpath) 
+                return fullpath  
+            except:
+                print("There was an issue with the conversion") 
+        else:
+            print("")
