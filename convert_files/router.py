@@ -3,9 +3,8 @@ import utils
 
 class Route():
     """
-    Routing class holding triggering the methods for conversion.
+    Routing class.
     """
-    
     
     @staticmethod
     def txtToPdf(input):
@@ -28,6 +27,7 @@ class Route():
                 pass
         print("To be implemented")
 
+    #region HTML
     @staticmethod
     def htmlToPdf(input):
         if utils.isUrl(input):
@@ -47,7 +47,9 @@ class Route():
     @staticmethod
     def htmlToTxt(input):
         print(input)
+    #endregion
 
+    #region DOC
     @staticmethod
     def docToTxt(input):
         print("To be implemented")
@@ -56,17 +58,19 @@ class Route():
     @staticmethod
     def docToPdf(input):
         print("To be implemented")
-
+    #endregion
     
+    #region DOCX
     @staticmethod
     def docxToTxt(input):
         print("To be implemented")
 
-
     @staticmethod
     def docxToPdf(input):
         print("text")
+    #endregion
     
+    #region EPUB
     @staticmethod
     def epubToTxt(input):
         print("text")
@@ -74,6 +78,7 @@ class Route():
     @staticmethod
     def epubToPdf(input):
         print("text")
+    #endregion
         
 options = {
     "0": exit,

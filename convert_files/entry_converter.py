@@ -44,15 +44,15 @@ options = {
 }
 
 if __name__ == "__main__":
-   print("\n\n\n\n")
-   print("Select from one of the following options:")
-   print("=========================================")
-   print("\n\n")
+   
+   #Display Intro
+   utils.showIntro()
 
    #Display Menu
    utils.showMenu(options)
    
-   #Make selection
+   #Select option
+   print("\n\n")
    choice = input("Your selection is: ").strip()      
    while utils.checkChoice(choice,options) == False:
       print("Invalid choice.")
